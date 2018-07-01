@@ -10,6 +10,7 @@ import kafka.connect.marklogic.MarkLogicWriter;
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
+import org.apache.kafka.common.config.ConfigDef.Range;
 import org.apache.kafka.common.config.ConfigDef.Recommender;
 import org.apache.kafka.common.config.ConfigDef.Type;
 import org.apache.kafka.common.config.ConfigDef.Width;
@@ -31,6 +32,7 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	
 	public static final String CONNECTION_PORT = "ml.connection.port";
     private static final String CONNECTION_PORT_DOC = "ml application server port";
+    private static final int CONNECTION_PORT_DEFAULT = 8000;
     private static final String CONNECTION_PORT_DISPLAY = "Port";
 	
 	public static final String CONNECTION_USER = "ml.connection.user";
@@ -89,6 +91,8 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 			.define(
 				CONNECTION_PORT,
 				Type.INT,
+				CONNECTION_PORT_DEFAULT,
+				Range.atLeast(0),
 				Importance.HIGH,
 				CONNECTION_PORT_DOC,
 				MARKLOGIC_CONFIG_GROUP,
