@@ -43,6 +43,10 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	private static final String CONNECTION_PASSWORD_DOC = "ml connection password";
 	private static final String CONNECTION_PASSWORD_DISPLAY = "Password";
 
+	public static final String CONNECTION_DB = "ml.connection.db";
+	private static final String CONNECTION_DB_DOC = "ml application server database";
+	private static final String CONNECTION_DB_DISPLAY = "Database";
+
 	public static final String BATCH_SIZE = "ml.batch.size";
 	private static final int BATCH_SIZE_DEFAULT = 1000;
 	private static final String BATCH_SIZE_DOC = "ml batch size";
@@ -119,6 +123,16 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 				4,
 				Width.NONE,
 				CONNECTION_PASSWORD_DISPLAY
+			)
+			.define(
+				CONNECTION_DB,
+				Type.STRING,
+				Importance.LOW,
+				CONNECTION_DB_DOC,
+				MARKLOGIC_CONFIG_GROUP,
+				5,
+				Width.NONE,
+				CONNECTION_DB_DISPLAY
 			)
 			.define(BATCH_SIZE, Type.INT, BATCH_SIZE_DEFAULT, Range.atLeast(0), Importance.MEDIUM, BATCH_SIZE_DOC)
 			.define(MAX_RETRIES, Type.INT, MAX_RETRIES_DEFAULT, Range.atLeast(0), Importance.MEDIUM, MAX_RETRIES_DOC)
