@@ -120,9 +120,9 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 				Width.NONE,
 				CONNECTION_PASSWORD_DISPLAY
 			)
-			.define(BATCH_SIZE, Type.INT, BATCH_SIZE_DEFAULT, Importance.MEDIUM, BATCH_SIZE_DOC)
-			.define(MAX_RETRIES, Type.INT, MAX_RETRIES_DEFAULT, Importance.MEDIUM, MAX_RETRIES_DOC)
-			.define(RETRY_BACKOFF_MS, Type.INT, RETRY_BACKOFF_MS_DEFAULT, Importance.MEDIUM, RETRY_BACKOFF_MS_DOC)
+			.define(BATCH_SIZE, Type.INT, BATCH_SIZE_DEFAULT, Range.atLeast(0), Importance.MEDIUM, BATCH_SIZE_DOC)
+			.define(MAX_RETRIES, Type.INT, MAX_RETRIES_DEFAULT, Range.atLeast(0), Importance.MEDIUM, MAX_RETRIES_DOC)
+			.define(RETRY_BACKOFF_MS, Type.INT, RETRY_BACKOFF_MS_DEFAULT, Range.atLeast(0), Importance.MEDIUM, RETRY_BACKOFF_MS_DOC)
 			.define(
 				WRITER_IMPL,
 				Type.CLASS,
