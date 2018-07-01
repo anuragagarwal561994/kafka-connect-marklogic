@@ -1,13 +1,18 @@
 package kafka.connect.marklogic.sink;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import kafka.connect.marklogic.MarkLogicBufferedWriter;
 
+import kafka.connect.marklogic.MarkLogicWriter;
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
+import org.apache.kafka.common.config.ConfigDef.Recommender;
 import org.apache.kafka.common.config.ConfigDef.Type;
+import org.apache.kafka.common.config.ConfigDef.Width;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +44,7 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	public static final String WRITER_IMPL = "ml.writer.impl";
 	private static final String WRITER_IMPL_DEFAULT = MarkLogicBufferedWriter.class.getCanonicalName();
 	private static final String WRITER_IMPL_DOC = "ml writer implementation class name";
+	private static final String WRITER_IMPL_DISPLAY = "Marklogic Write Implementation Class";
 	
 	public static final String MAX_RETRIES = "max.retries";
     private static final int MAX_RETRIES_DEFAULT = 100;
@@ -48,6 +54,21 @@ public class MarkLogicSinkConfig extends AbstractConfig {
     private static final int RETRY_BACKOFF_MS_DEFAULT = 10000;
 	private static final String RETRY_BACKOFF_MS_DOC = "The time in milliseconds to wait following an error/exception before a retry attempt is made.";
 	
+	private static final Recommender WRITER_IMPL_RECOMMENDER = new Recommender() {
+		@Override
+		public List<Object> validValues(String s, Map<String, Object> map) {
+			return Arrays.<Object>asList(
+				MarkLogicBufferedWriter.class,
+				MarkLogicWriter.class
+			);
+		}
+
+		@Override
+		public boolean visible(String s, Map<String, Object> map) {
+			return true;
+		}
+    };
+
 	public static ConfigDef CONFIG_DEF = new ConfigDef()
 			.define(CONNECTION_HOST, Type.STRING, Importance.HIGH, CONNECTION_HOST_DOC)
 			.define(CONNECTION_PORT, Type.INT, Importance.HIGH, CONNECTION_PORT_DOC)
@@ -56,7 +77,18 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 			.define(BATCH_SIZE, Type.INT, BATCH_SIZE_DEFAULT, Importance.MEDIUM, BATCH_SIZE_DOC)
 			.define(MAX_RETRIES, Type.INT, MAX_RETRIES_DEFAULT, Importance.MEDIUM, MAX_RETRIES_DOC)
 			.define(RETRY_BACKOFF_MS, Type.INT, RETRY_BACKOFF_MS_DEFAULT, Importance.MEDIUM, RETRY_BACKOFF_MS_DOC)
-			.define(WRITER_IMPL, Type.STRING, WRITER_IMPL_DEFAULT, Importance.MEDIUM, WRITER_IMPL_DOC);
+			.define(
+				WRITER_IMPL,
+				Type.CLASS,
+				WRITER_IMPL_DEFAULT,
+				Importance.MEDIUM,
+				WRITER_IMPL_DOC,
+				"Writer",
+				1,
+				Width.NONE,
+				WRITER_IMPL_DISPLAY,
+				WRITER_IMPL_RECOMMENDER
+			);
 
 	public MarkLogicSinkConfig(final Map<?, ?> originals) {
 		
