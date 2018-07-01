@@ -27,15 +27,19 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	
 	public static final String CONNECTION_HOST = "ml.connection.host";
 	private static final String CONNECTION_HOST_DOC = "ml application server hostname";
+	private static final String CONNECTION_HOST_DISPLAY = "Host";
 	
 	public static final String CONNECTION_PORT = "ml.connection.port";
     private static final String CONNECTION_PORT_DOC = "ml application server port";
+    private static final String CONNECTION_PORT_DISPLAY = "Port";
 	
 	public static final String CONNECTION_USER = "ml.connection.user";
 	private static final String CONNECTION_USER_DOC = "ml connection user.";
+	private static final String CONNECTION_USER_DISPLAY = "Username";
 
 	public static final String CONNECTION_PASSWORD = "ml.connection.password";
 	private static final String CONNECTION_PASSWORD_DOC = "ml connection password";
+	private static final String CONNECTION_PASSWORD_DISPLAY = "Password";
 
 	public static final String BATCH_SIZE = "ml.batch.size";
 	private static final int BATCH_SIZE_DEFAULT = 1000;
@@ -53,6 +57,8 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	public static final String RETRY_BACKOFF_MS = "retry.backoff.ms";
     private static final int RETRY_BACKOFF_MS_DEFAULT = 10000;
 	private static final String RETRY_BACKOFF_MS_DOC = "The time in milliseconds to wait following an error/exception before a retry attempt is made.";
+
+	private static final String MARKLOGIC_CONFIG_GROUP = "Marklogic Connection Details";
 	
 	private static final Recommender WRITER_IMPL_RECOMMENDER = new Recommender() {
 		@Override
@@ -70,10 +76,46 @@ public class MarkLogicSinkConfig extends AbstractConfig {
     };
 
 	public static ConfigDef CONFIG_DEF = new ConfigDef()
-			.define(CONNECTION_HOST, Type.STRING, Importance.HIGH, CONNECTION_HOST_DOC)
-			.define(CONNECTION_PORT, Type.INT, Importance.HIGH, CONNECTION_PORT_DOC)
-			.define(CONNECTION_USER, Type.STRING, Importance.HIGH, CONNECTION_USER_DOC)
-			.define(CONNECTION_PASSWORD, Type.PASSWORD, Importance.LOW, CONNECTION_PASSWORD_DOC)
+			.define(
+				CONNECTION_HOST,
+				Type.STRING,
+				Importance.HIGH,
+				CONNECTION_HOST_DOC,
+				MARKLOGIC_CONFIG_GROUP,
+				1,
+				Width.NONE,
+				CONNECTION_HOST_DISPLAY
+			)
+			.define(
+				CONNECTION_PORT,
+				Type.INT,
+				Importance.HIGH,
+				CONNECTION_PORT_DOC,
+				MARKLOGIC_CONFIG_GROUP,
+				2,
+				Width.NONE,
+				CONNECTION_PORT_DISPLAY
+			)
+			.define(
+				CONNECTION_USER,
+				Type.STRING,
+				Importance.HIGH,
+				CONNECTION_USER_DOC,
+				MARKLOGIC_CONFIG_GROUP,
+				3,
+				Width.NONE,
+				CONNECTION_USER_DISPLAY
+			)
+			.define(
+				CONNECTION_PASSWORD,
+				Type.PASSWORD,
+				Importance.LOW,
+				CONNECTION_PASSWORD_DOC,
+				MARKLOGIC_CONFIG_GROUP,
+				4,
+				Width.NONE,
+				CONNECTION_PASSWORD_DISPLAY
+			)
 			.define(BATCH_SIZE, Type.INT, BATCH_SIZE_DEFAULT, Importance.MEDIUM, BATCH_SIZE_DOC)
 			.define(MAX_RETRIES, Type.INT, MAX_RETRIES_DEFAULT, Importance.MEDIUM, MAX_RETRIES_DOC)
 			.define(RETRY_BACKOFF_MS, Type.INT, RETRY_BACKOFF_MS_DEFAULT, Importance.MEDIUM, RETRY_BACKOFF_MS_DOC)
